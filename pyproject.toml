@@ -1,0 +1,37 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "apiport-mcp-server"
+version = "0.1.0"
+description = "MCP server for ApiPort Task Manager integration"
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [
+    { name = "ApiPort Team" }
+]
+dependencies = [
+    "mcp>=0.9.0",
+    "httpx>=0.27.0",
+    "python-dotenv>=1.0.0"
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0.0",
+    "pytest-asyncio>=0.23.0",
+    "black>=24.0.0",
+    "ruff>=0.3.0"
+]
+
+[project.scripts]
+apiport-mcp = "apiport_mcp_server:main"
+
+[tool.black]
+line-length = 100
+target-version = ["py310"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"

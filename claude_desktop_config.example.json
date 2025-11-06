@@ -1,0 +1,18 @@
+{
+  "mcpServers": {
+    "apiport": {
+      "command": "uv",
+      "args": [
+        "--directory",
+        "/home/alphaws/ai_dev/apiport-mcp-server",
+        "run",
+        "apiport-mcp-server"
+      ],
+      "env": {
+        "APIPORT_API_URL": "https://api.apiport.hu",
+        "APIPORT_EMAIL": "myemail@example.com",
+        "APIPORT_PASSWORD": "my-secret-password"
+      }
+    }
+  }
+}
