@@ -55,6 +55,29 @@ async def list_tools() -> list[Tool]:
             },
         ),
         Tool(
+            name="create_project",
+            description="Create a new project (respects subscription limits: Free=1 project, paid plans=more)",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "name": {"type": "string", "description": "Project name"},
+                    "description": {"type": "string", "description": "Project description (optional)"},
+                    "status": {
+                        "type": "string",
+                        "description": "Project status: active, on_hold, completed, archived (default: active)",
+                        "enum": ["active", "on_hold", "completed", "archived"],
+                    },
+                    "visibility": {
+                        "type": "string",
+                        "description": "Project visibility: private, internal (default: private)",
+                        "enum": ["private", "internal"],
+                    },
+                    "color": {"type": "string", "description": "Hex color for UI (optional)"},
+                },
+                "required": ["name"],
+            },
+        ),
+        Tool(
             name="list_sprints",
             description="List all sprints for a project",
             inputSchema={
@@ -147,7 +170,7 @@ async def list_tools() -> list[Tool]:
         ),
         Tool(
             name="create_work_item",
-            description="Create a new work item (task, user story, bug, or epic)",
+            description="Create a new work item (task, story, bug)",
             inputSchema={
                 "type": "object",
                 "properties": {
@@ -156,7 +179,7 @@ async def list_tools() -> list[Tool]:
                     "description": {"type": "string", "description": "Description (optional)"},
                     "item_type": {
                         "type": "string",
-                        "enum": ["task", "user_story", "bug", "epic"],
+                        "enum": ["task", "story", "bug"],
                         "description": "Type of work item (default: task)",
                     },
                     "priority": {
@@ -306,6 +329,38 @@ async def call_tool(name: str, arguments: Any) -> list[TextContent]:
                     f"Created: {project.get('created_at', 'N/A')}",
                 )
             ]
+
+        elif name == "create_project":
+            try:
+                project = await get_client().create_project(
+                    name=arguments["name"],
+                    description=arguments.get("description"),
+                    status=arguments.get("status", "active"),
+                    visibility=arguments.get("visibility", "private"),
+                    color=arguments.get("color"),
+                )
+                return [
+                    TextContent(
+                        type="text",
+                        text=f"✅ Created project '{project['name']}' (ID: {project['id']})\n"
+                        f"Status: {project['status']}\n"
+                        f"Visibility: {project['visibility']}\n"
+                        f"Description: {project.get('description', 'N/A')}",
+                    )
+                ]
+            except Exception as e:
+                # Handle subscription limit errors gracefully
+                error_msg = str(e)
+                if "403" in error_msg or "PROJECT_LIMIT_REACHED" in error_msg:
+                    return [
+                        TextContent(
+                            type="text",
+                            text=f"❌ Cannot create project: Subscription limit reached.\n"
+                            f"Please upgrade your subscription to create more projects.\n"
+                            f"Error details: {error_msg}",
+                        )
+                    ]
+                raise
 
         elif name == "list_sprints":
             sprints = await get_client().list_sprints(arguments["project_id"])

@@ -1,0 +1,14 @@
+python3 -c "
+import asyncio
+import os
+from src.apiport_mcp_server.api_client import ApiPortClient
+
+async def test():
+    client = ApiPortClient(verify_ssl=False)
+    projects = await client.list_projects()
+    print(f'✅ Found {len(projects)} projects')
+    for p in projects:
+        print(f'   - {p[\"id\"]}: {p[\"name\"]}')
+
+asyncio.run(test())
+"

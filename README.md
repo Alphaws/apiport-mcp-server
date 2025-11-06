@@ -197,3 +197,44 @@ Internal use only - ApiPort project
 - **Last Updated**: 2025-11-06
 - **MCP Protocol**: 0.9.0+
 - **Python**: 3.10+
+
+## Agent Types
+
+ApiPort supports various agent types for automation:
+
+### Content Scraper Agent
+Extract and process content from websites using CSS selectors.
+
+**Documentation**: [Content Scraper Agent Guide](docs/CONTENT_SCRAPER_AGENT.md)
+
+**Features**:
+- CSS selector-based extraction
+- Multiple output formats (text, HTML, markdown)
+- Pagination support
+- Robots.txt compliance
+- Image and link extraction
+- Metadata extraction
+
+**Quick Example**:
+```
+Create a content scraper agent for project 4:
+- URL: https://blog.example.com
+- Extract title from h1.post-title
+- Extract content from article.post-body
+- Use markdown format
+```
+
+### Other Agent Types
+- **Web Monitor**: Monitor websites for changes
+- **Down Detector**: Detect website downtime
+- **Data Analyzer**: Analyze structured data
+- **Task Automator**: Automate repetitive tasks
+- And more...
+
+## Documentation
+
+- [Content Scraper Agent](docs/CONTENT_SCRAPER_AGENT.md) - Detailed guide for web scraping
+- [API Reference](https://api.apiport.hu/docs) - Full API documentation
+
+## TODO
+- Create Project

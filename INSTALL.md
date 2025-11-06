@@ -12,6 +12,8 @@ pip install -e .
 Or using uv (recommended):
 
 ```bash
+uv venv
+source .venv/bin/activate
 uv pip install -e .
 ```
 
@@ -28,8 +30,8 @@ Or export environment variables:
 
 ```bash
 export APIPORT_API_URL="https://api.apiport.hu"
-export APIPORT_EMAIL="ai@apiport.hu"
-export APIPORT_PASSWORD="v7sQR6G0rg8s8UwP3Edt"
+export APIPORT_EMAIL="your-email@example.com"
+export APIPORT_PASSWORD="your-password"
 ```
 
 ### 3. Test the Installation
@@ -72,8 +74,8 @@ asyncio.run(test())
       ],
       "env": {
         "APIPORT_API_URL": "https://api.apiport.hu",
-        "APIPORT_EMAIL": "ai@apiport.hu",
-        "APIPORT_PASSWORD": "v7sQR6G0rg8s8UwP3Edt"
+        "APIPORT_EMAIL": "your-email@example.com",
+        "APIPORT_PASSWORD": "your-password"
       }
     }
   }
@@ -91,12 +93,12 @@ Or with `uv` (recommended):
         "--directory",
         "/home/alphaws/ai_dev/apiport-mcp-server",
         "run",
-        "apiport-mcp-server"
+        "apiport-mcp"
       ],
       "env": {
         "APIPORT_API_URL": "https://api.apiport.hu",
-        "APIPORT_EMAIL": "ai@apiport.hu",
-        "APIPORT_PASSWORD": "v7sQR6G0rg8s8UwP3Edt"
+        "APIPORT_EMAIL": "your-email@example.com",
+        "APIPORT_PASSWORD": "your-password"
       }
     }
   }
@@ -141,7 +143,7 @@ List my ApiPort projects
    ```bash
    curl -X POST "https://api.apiport.hu/api/accounts/token/" \
      -H "Content-Type: application/json" \
-     -d '{"email":"ai@apiport.hu","password":"v7sQR6G0rg8s8UwP3Edt"}' -k
+     -d '{"email":"your-email@example.com","password":"your-password"}' -k
    ```
 
 ### SSL Certificate Errors

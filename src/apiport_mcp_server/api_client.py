@@ -87,6 +87,28 @@ class ApiPortClient:
         data = await self._request("GET", f"projects/{project_id}/")
         return data.get("project", {})
 
+    async def create_project(
+        self,
+        name: str,
+        description: Optional[str] = None,
+        status: str = "active",
+        visibility: str = "private",
+        color: Optional[str] = None,
+    ) -> Dict[str, Any]:
+        """Create a new project with subscription limit checking"""
+        payload = {
+            "name": name,
+            "status": status,
+            "visibility": visibility,
+        }
+        if description:
+            payload["description"] = description
+        if color:
+            payload["color"] = color
+
+        data = await self._request("POST", "projects/create/", json=payload)
+        return data.get("project", {})
+
     # Sprint methods
     async def list_sprints(self, project_id: int) -> List[Dict[str, Any]]:
         """List sprints for a project"""
@@ -158,11 +180,15 @@ class ApiPortClient:
         parent_id: Optional[int] = None,
     ) -> Dict[str, Any]:
         """Create a new work item"""
+        # Map user_story to story for API compatibility
+        if item_type == "user_story":
+            item_type = "story"
+
         payload = {
             "title": title,
             "item_type": item_type,
             "priority": priority,
-            "status": "todo",
+            "status": "new",
         }
         if description:
             payload["description"] = description
